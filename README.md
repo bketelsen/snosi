@@ -645,9 +645,14 @@ installation or the root update service.
 | `check-dependencies.yml` | Weekly | Checks pinned direct downloads and inline image-tool pins, opens target-specific PRs |
 | `check-packages.yml` | Daily | Checks external APT package versions for sysexts, updates `package-versions.json`, opens PRs |
 | `nightly-compliance.yml` | Nightly / manual | Re-runs secretless security and publication policy contracts to detect compliance drift |
-| `validate.yml` | PR/push | shellcheck (all shebang-discovered scripts, `-S warning`) + `mkosi summary` validation for every profile |
+| `validate.yml` | PR/push | BATS mutation tests for publication/runtime guards, shellcheck (all shebang-discovered scripts, `-S warning`), and `mkosi summary` validation for every profile |
 | `test-install.yml` | Manual | Signature-verified bootc installation test in QEMU/KVM |
 | `scorecard.yml` | Weekly | OpenSSF supply-chain security analysis |
+
+Run `bats --tap ./test/publication-guards.bats` to exercise valid and
+fail-closed fixtures for the bootc/native publication guards, runtime `/etc`
+mutation guard, and duplicate-package guard without building or publishing an
+image.
 
 Both Copilot handoff workflows use the fleet-wide
 `COPILOT_ASSIGNMENT_TOKEN` organization secret. The [operator

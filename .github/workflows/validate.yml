@@ -55,6 +55,18 @@ jobs:
         # unrelated preconfigured third-party mirrors, as seen in #381.
         run: shellcheck --version
 
+      - name: Set up BATS
+        uses: bats-core/bats-action@77d6fb60505b4d0d1d73e48bd035b55074bbfb43 # 4.0.0
+        with:
+          bats-version: 1.13.0
+          support-install: false
+          assert-install: false
+          detik-install: false
+          file-install: false
+
+      - name: Test publication and runtime guards
+        run: bats --tap ./test/publication-guards.bats
+
       - name: Lint shell scripts
         # Discover scripts by first-line shebang instead of extension globs:
         # the repo has many extensionless scripts (mkosi.finalize, mkosi.clean,

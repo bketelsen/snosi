@@ -427,6 +427,19 @@ during the sysext build.
 2. Compares against `shared/download/package-versions.json`
 3. If changed: updates `package-versions.json`, creates a sysext package-version PR
 
+### Guard mutation tests
+
+`test/publication-guards.bats` is the fast, network-free unit layer for the
+four root guard scripts. It runs the existing exhaustive bootc publication
+mutation harness, then uses isolated temporary fixtures to prove valid and
+fail-closed behavior for native publication markers/pubring, runtime `/etc`
+mutations and explained escapes, and duplicate package entries with source-line
+diagnostics. `validate.yml` installs BATS 1.13.0 through the commit-pinned
+`bats-core/bats-action` 4.0.0 action with all unused helper libraries disabled,
+then runs this suite before the direct real-tree guards; neither layer builds or
+publishes an image. The local command is
+`bats --tap ./test/publication-guards.bats`.
+
 ### ai-fix-requested.yml — Copilot Issue Handoff
 
 **Trigger:** An issue receives the `ai-fix-requested` label, or a maintainer
